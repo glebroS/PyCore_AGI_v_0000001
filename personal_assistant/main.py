@@ -1,15 +1,19 @@
 from storage import load_data, save_data
 from handlers import (
-    add_contact, change_phone, remove_phone, show_phone, add_email, add_address,
+    add_contact, change_phone, remove_phone, show_phone, add_email, remove_email, edit_email, add_address,
     delete_contact, show_all, search_contacts, add_birthday, show_birthday, show_birthdays,
     add_note_handler, edit_note_handler, delete_note_handler, add_tag_handler, 
     show_all_notes, search_notes, search_notes_by_tag,
     fake_geoposition_handler, speed_up_internet_handler
 )
 
+import shlex
 
 def parse_input(user_input):
-    parts = user_input.strip().split()
+    try:
+        parts = shlex.split(user_input.strip())
+    except ValueError:
+        parts = user_input.strip().split()
     if not parts:
         return None, []
     command = parts[0].lower()
@@ -42,8 +46,8 @@ def show_help():
 ║                                                                        ║
 ║ УПРАВЛІННЯ НОТАТКАМИ:                                                  ║
 ║ ──────────────────────────────────────────────────────────────────     ║
-║ add-note <заголовок> <текст>   - Додати нотатку                        ║
-║ edit-note <заголовок> <текст>  - Змінити текст нотатки                 ║
+║ add-note "<заголовок>" <текст>   - Додати нотатку                        ║
+║ edit-note "<заголовок>" <текст>  - Змінити текст нотатки                 ║
 ║ delete-note <заголовок>        - Видалити нотатку                      ║
 ║ add-tag <заголовок> <тег>      - Додати тег до нотатки                 ║
 ║ search-note <запит>            - Пошук нотаток (заголовок/текст)       ║

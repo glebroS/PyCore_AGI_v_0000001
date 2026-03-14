@@ -76,6 +76,30 @@ def add_email(args, book):
     record.add_email(email)
     return f"Email {email} додано для контакту {name}."
 
+@input_error
+def remove_email(args, book):
+    if len(args) < 2:
+        raise IndexError()
+    name, email = args[0], args[1]
+    record = book.find(name)
+    if record is None:
+        raise KeyError()
+    
+    record.remove_email(email)
+    return f"Email {email} видалено для контакту {name}."
+
+
+@input_error
+def edit_email(args, book):
+    if len(args) < 3:
+        raise IndexError()
+    name, old_email, new_email = args[0], args[1], args[2]
+    record = book.find(name)
+    if record is None:
+        raise KeyError()
+    
+    record.edit_email(old_email, new_email)
+    return f"Email змінено для контакту {name}."
 
 @input_error
 def add_address(args, book):
