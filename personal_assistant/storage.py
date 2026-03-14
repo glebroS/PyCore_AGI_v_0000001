@@ -1,7 +1,7 @@
 import pickle
 import os
 from pathlib import Path
-from models import AddressBook, NoteBook
+from personal_assistant.models import AddressBook, NoteBook
 
 # Get user home directory to save files
 USER_HOME = str(Path.home())

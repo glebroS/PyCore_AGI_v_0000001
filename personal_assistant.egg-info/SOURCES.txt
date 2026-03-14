@@ -1,0 +1,12 @@
+pyproject.toml
+personal_assistant/__init__.py
+personal_assistant/exceptions.py
+personal_assistant/handlers.py
+personal_assistant/main.py
+personal_assistant/models.py
+personal_assistant/storage.py
+personal_assistant.egg-info/PKG-INFO
+personal_assistant.egg-info/SOURCES.txt
+personal_assistant.egg-info/dependency_links.txt
+personal_assistant.egg-info/entry_points.txt
+personal_assistant.egg-info/top_level.txt

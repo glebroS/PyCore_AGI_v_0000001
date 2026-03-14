@@ -1,5 +1,5 @@
-from models import Record, Note
-from exceptions import input_error, ValidationException
+from personal_assistant.models import Record, Note
+from personal_assistant.exceptions import input_error, ValidationException
 
 # --- Contact Handlers ---
 
@@ -114,7 +114,19 @@ def add_address(args, book):
     record.add_address(address)
     return f"Адресу '{address}' додано для контакту {name}."
 
-
+@input_error
+def edit_contact_name(args, book):
+    if len(args) < 2:
+        raise IndexError()
+    old_name, new_name = args[0], args[1]
+    record = book.find(old_name)
+    if record is None:
+        raise KeyError()
+    
+    book.delete(old_name)
+    record.name = record.name.__class__(new_name)
+    book.add_record(record)
+    return f"Ім'я контакту змінено з '{old_name}' на '{new_name}'."
 @input_error
 def delete_contact(args, book):
     if len(args) < 1:
@@ -251,7 +263,19 @@ def add_tag_handler(args, notebook):
         
     note.add_tag(tag)
     return f"Тег '{tag}' додано до нотатки '{title}'."
-
+@input_error
+def remove_tag_handler(args, notebook):
+    if len(args) < 2:
+        raise IndexError()
+    title = args[0]
+    tag = args[1]
+    
+    note = notebook.find_note(title)
+    if not note:
+        raise KeyError()
+        
+    note.remove_tag(tag)
+    return f"Тег '{tag}' видалено з нотатки '{title}'."
 
 @input_error
 def show_all_notes(notebook):
