@@ -7,9 +7,13 @@ from handlers import (
     fake_geoposition_handler, speed_up_internet_handler
 )
 
+import shlex
 
 def parse_input(user_input):
-    parts = user_input.strip().split()
+    try:
+        parts = shlex.split(user_input.strip())
+    except ValueError:
+        parts = user_input.strip().split()
     if not parts:
         return None, []
     command = parts[0].lower()
@@ -42,8 +46,8 @@ def show_help():
 ║                                                                        ║
 ║ УПРАВЛІННЯ НОТАТКАМИ:                                                  ║
 ║ ──────────────────────────────────────────────────────────────────     ║
-║ add-note <заголовок> <текст>   - Додати нотатку                        ║
-║ edit-note <заголовок> <текст>  - Змінити текст нотатки                 ║
+║ add-note "<заголовок>" <текст>   - Додати нотатку                        ║
+║ edit-note "<заголовок>" <текст>  - Змінити текст нотатки                 ║
 ║ delete-note <заголовок>        - Видалити нотатку                      ║
 ║ add-tag <заголовок> <тег>      - Додати тег до нотатки                 ║
 ║ search-note <запит>            - Пошук нотаток (заголовок/текст)       ║
