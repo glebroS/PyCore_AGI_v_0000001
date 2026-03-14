@@ -1,8 +1,8 @@
 from personal_assistant.storage import load_data, save_data
 from personal_assistant.handlers import (
     add_contact, change_phone, remove_phone, show_phone, add_email, remove_email, edit_email, add_address,
-    delete_contact, show_all, search_contacts, add_birthday, show_birthday, show_birthdays,
-    add_note_handler, edit_note_handler, delete_note_handler, add_tag_handler, 
+    delete_contact, edit_contact_name, show_all, search_contacts, add_birthday, show_birthday, show_birthdays,
+    add_note_handler, edit_note_handler, delete_note_handler, add_tag_handler, remove_tag_handler,
     show_all_notes, search_notes, search_notes_by_tag,
     fake_geoposition_handler, speed_up_internet_handler
 )
@@ -33,7 +33,10 @@ def show_help():
 ║ remove-phone <ім'я> <телефон>  - Видалити телефон з контакту           ║
 ║ phone <ім'я>                   - Показати телефони контакту            ║
 ║ add-email <ім'я> <email>       - Додати email до контакту              ║
+║ remove-email <ім'я> <email>    - Видалити email контакту               ║
+║ edit-email <ім'я> <старий> <новий> - Змінити email контакту            ║
 ║ add-address <ім'я> <адреса>    - Додати адресу до контакту             ║
+║ edit-name <старе> <нове>       - Змінити ім'я контакту                 ║
 ║ delete <ім'я>                  - Видалити контакт                      ║
 ║ all                            - Показати всі контакти                 ║
 ║ search <запит>                 - Пошук контактів (ім'я/телефон/email)  ║
@@ -46,10 +49,11 @@ def show_help():
 ║                                                                        ║
 ║ УПРАВЛІННЯ НОТАТКАМИ:                                                  ║
 ║ ──────────────────────────────────────────────────────────────────     ║
-║ add-note "<заголовок>" <текст>   - Додати нотатку                        ║
-║ edit-note "<заголовок>" <текст>  - Змінити текст нотатки                 ║
+║ add-note "<заголовок>" <текст> - Додати нотатку                        ║
+║ edit-note "<заголовок>" <текст>- Змінити текст нотатки                 ║
 ║ delete-note <заголовок>        - Видалити нотатку                      ║
 ║ add-tag <заголовок> <тег>      - Додати тег до нотатки                 ║
+║ remove-tag <заголовок> <тег>   - Видалити тег з нотатки               ║
 ║ search-note <запит>            - Пошук нотаток (заголовок/текст)       ║
 ║ search-tag <тег>               - Пошук нотаток за тегом                ║
 ║ all-notes                      - Показати всі нотатки                  ║
@@ -102,8 +106,14 @@ def main():
                 print(show_phone(args, address_book))
             elif command == "add-email":
                 print(add_email(args, address_book))
+            elif command == "remove-email":
+                print(remove_email(args, address_book))
+            elif command == "edit-email":
+                print(edit_email(args, address_book))
             elif command == "add-address":
                 print(add_address(args, address_book))
+            elif command == "edit-name":
+                print(edit_contact_name(args, address_book))
             elif command == "delete":
                 print(delete_contact(args, address_book))
             elif command == "all":
@@ -128,6 +138,8 @@ def main():
                 print(delete_note_handler(args, note_book))
             elif command == "add-tag":
                 print(add_tag_handler(args, note_book))
+            elif command == "remove-tag":
+                print(remove_tag_handler(args, note_book))
             elif command == "search-note":
                 print(search_notes(args, note_book))
             elif command == "search-tag":
