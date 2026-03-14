@@ -1,7 +1,7 @@
 import re
 from collections import UserDict
 from datetime import datetime, timedelta
-from exceptions import ValidationException
+from personal_assistant.exceptions import ValidationException
 
 
 class Field:

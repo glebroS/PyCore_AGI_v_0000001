@@ -1,5 +1,5 @@
-from storage import load_data, save_data
-from handlers import (
+from personal_assistant.storage import load_data, save_data
+from personal_assistant.handlers import (
     add_contact, change_phone, remove_phone, show_phone, add_email, remove_email, edit_email, add_address,
     delete_contact, show_all, search_contacts, add_birthday, show_birthday, show_birthdays,
     add_note_handler, edit_note_handler, delete_note_handler, add_tag_handler, 

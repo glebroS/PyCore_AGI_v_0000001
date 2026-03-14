@@ -1,5 +1,5 @@
-from models import Record, Note
-from exceptions import input_error, ValidationException
+from personal_assistant.models import Record, Note
+from personal_assistant.exceptions import input_error, ValidationException
 
 # --- Contact Handlers ---
 
