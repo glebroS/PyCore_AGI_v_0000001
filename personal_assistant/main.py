@@ -8,6 +8,19 @@ from personal_assistant.handlers import (
 )
 
 import shlex
+from colorama import init, Fore, Style
+from difflib import get_close_matches
+
+init(autoreset=True)
+
+ALL_COMMANDS = [
+    "add", "change", "remove-phone", "phone", "add-email", "remove-email",
+    "edit-email", "add-address", "remove-address", "edit-name", "delete",
+    "all", "search", "add-birthday", "show-birthday", "birthdays",
+    "add-note", "show-note", "edit-note", "delete-note", "add-tag",
+    "remove-tag", "search-note", "search-tag", "all-notes",
+    "hello", "help", "geoposition", "speed-up-internet", "close", "exit"
+]
 
 def parse_input(user_input):
     try:
@@ -21,8 +34,20 @@ def parse_input(user_input):
     return command, args
 
 
+def ok(msg):
+    return Fore.GREEN + msg + Style.RESET_ALL
+
+
+def err(msg):
+    return Fore.RED + msg + Style.RESET_ALL
+
+
+def info(msg):
+    return Fore.CYAN + msg + Style.RESET_ALL
+
+
 def show_help():
-    help_text = """
+    help_text = Fore.CYAN + """
 ╔════════════════════════════════════════════════════════════════════════╗
 ║                    AGI v0.0000000001 - КОМАНДИ                         ║
 ║                                                                        ║
@@ -68,20 +93,20 @@ def show_help():
 ║ speed-up-internet              - Прискорити інтернет                   ║
 ║ close, exit                    - Зберегти дані та вийти                ║
 ╚════════════════════════════════════════════════════════════════════════╝
-"""
+""" + Style.RESET_ALL
     return help_text
 
 
 def main():
     address_book, note_book = load_data()
-    print("\n" + "="*70)
+    print(Fore.CYAN + "\n" + "="*70)
     print("  Ласкаво просимо! Я - AGI v0.0000000001 (штучний інтелект)")
-    print("="*70)
-    print("\nВведіть 'help' для списку команд\n")
+    print("="*70 + Style.RESET_ALL)
+    print(Fore.YELLOW + "\nВведіть 'help' для списку команд\n" + Style.RESET_ALL)
 
     while True:
         try:
-            user_input = input("Введіть команду >>> ").strip()
+            user_input = input(Fore.YELLOW + "Введіть команду >>> " + Style.RESET_ALL).strip()
             if not user_input:
                 continue
             
@@ -90,84 +115,88 @@ def main():
             # System Commands
             if command in ["close", "exit"]:
                 save_data(address_book, note_book)
-                print("\nДані успішно збережено. До побачення!")
+                print(ok("\nДані успішно збережено. До побачення!"))
                 break
             elif command == "hello":
-                print("Як я можу вам допомогти?")
+                print(info("Як я можу вам допомогти?"))
             elif command == "help":
                 print(show_help())
             
             # Contact Commands
             elif command == "add":
-                print(add_contact(args, address_book))
+                print(ok(add_contact(args, address_book)))
             elif command == "change":
-                print(change_phone(args, address_book))
+                print(ok(change_phone(args, address_book)))
             elif command == "remove-phone":
-                print(remove_phone(args, address_book))
+                print(ok(remove_phone(args, address_book)))
             elif command == "phone":
-                print(show_phone(args, address_book))
+                print(info(show_phone(args, address_book)))
             elif command == "add-email":
-                print(add_email(args, address_book))
+                print(ok(add_email(args, address_book)))
             elif command == "remove-email":
-                print(remove_email(args, address_book))
+                print(ok(remove_email(args, address_book)))
             elif command == "edit-email":
-                print(edit_email(args, address_book))
+                print(ok(edit_email(args, address_book)))
             elif command == "add-address":
-                print(add_address(args, address_book))
+                print(ok(add_address(args, address_book)))
             elif command == "remove-address":
-                print(remove_address(args, address_book))
+                print(ok(remove_address(args, address_book)))
             elif command == "edit-name":
-                print(edit_contact_name(args, address_book))
+                print(ok(edit_contact_name(args, address_book)))
             elif command == "delete":
-                print(delete_contact(args, address_book))
+                print(ok(delete_contact(args, address_book)))
             elif command == "all":
-                print(show_all(address_book))
+                print(info(show_all(address_book)))
             elif command == "search":
-                print(search_contacts(args, address_book))
+                print(info(search_contacts(args, address_book)))
                 
             # Birthday Commands
             elif command == "add-birthday":
-                print(add_birthday(args, address_book))
+                print(ok(add_birthday(args, address_book)))
             elif command == "show-birthday":
-                print(show_birthday(args, address_book))
+                print(info(show_birthday(args, address_book)))
             elif command == "birthdays":
-                print(show_birthdays(args, address_book))
+                print(info(show_birthdays(args, address_book)))
                 
             # Note Commands
             elif command == "add-note":
-                print(add_note_handler(args, note_book))
+                print(ok(add_note_handler(args, note_book)))
             elif command == "show-note":
-                print(show_note_handler(args, note_book))
+                print(info(show_note_handler(args, note_book)))
             elif command == "edit-note":
-                print(edit_note_handler(args, note_book))
+                print(ok(edit_note_handler(args, note_book)))
             elif command == "delete-note":
-                print(delete_note_handler(args, note_book))
+                print(ok(delete_note_handler(args, note_book)))
             elif command == "add-tag":
-                print(add_tag_handler(args, note_book))
+                print(ok(add_tag_handler(args, note_book)))
             elif command == "remove-tag":
-                print(remove_tag_handler(args, note_book))
+                print(ok(remove_tag_handler(args, note_book)))
             elif command == "search-note":
-                print(search_notes(args, note_book))
+                print(info(search_notes(args, note_book)))
             elif command == "search-tag":
-                print(search_notes_by_tag(args, note_book))
+                print(info(search_notes_by_tag(args, note_book)))
             elif command == "all-notes":
-                print(show_all_notes(note_book))
+                print(info(show_all_notes(note_book)))
                 
             # Joke Commands
             elif command == "geoposition":
-                print(fake_geoposition_handler(args))
+                print(info(fake_geoposition_handler(args)))
             elif command == "speed-up-internet":
-                print(speed_up_internet_handler(args))
+                print(fake_geoposition_handler(args))
                 
             else:
-                print("Невідома команда. Введіть 'help' для перегляду доступних команд.")
+                suggestion = get_close_matches(command, ALL_COMMANDS, n=1, cutoff=0.5)
+                if suggestion:
+                    print(err(f"Невідома команда '{command}'. Можливо, ви мали на увазі: '{suggestion[0]}'?"))
+                else:
+                    print(err(f"Невідома команда '{command}'. Введіть 'help' для перегляду доступних команд."))
                 
         except KeyboardInterrupt:
             save_data(address_book, note_book)
-            print("\n\nДані успішно збережено. До побачення!")
+            print(ok("\n\nДані успішно збережено. До побачення!"))
             break
         except Exception as e:
-            print(f"Помилка: {str(e)}")
+            print(err(f"Помилка: {str(e)}"))
 
 
 if __name__ == "__main__":
