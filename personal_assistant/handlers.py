@@ -76,6 +76,7 @@ def add_email(args, book):
     record.add_email(email)
     return f"Email {email} додано для контакту {name}."
 
+
 @input_error
 def remove_email(args, book):
     if len(args) < 2:
@@ -101,6 +102,7 @@ def edit_email(args, book):
     record.edit_email(old_email, new_email)
     return f"Email змінено для контакту {name}."
 
+
 @input_error
 def add_address(args, book):
     if len(args) < 2:
@@ -113,6 +115,20 @@ def add_address(args, book):
     
     record.add_address(address)
     return f"Адресу '{address}' додано для контакту {name}."
+
+
+@input_error
+def remove_address(args, book):
+    if len(args) < 1:
+        raise IndexError()
+    name = args[0]
+    record = book.find(name)
+    if record is None:
+        raise KeyError()
+    
+    record.address = None
+    return f"Адресу видалено для контакту {name}."
+
 
 @input_error
 def edit_contact_name(args, book):
@@ -127,6 +143,8 @@ def edit_contact_name(args, book):
     record.name = record.name.__class__(new_name)
     book.add_record(record)
     return f"Ім'я контакту змінено з '{old_name}' на '{new_name}'."
+
+
 @input_error
 def delete_contact(args, book):
     if len(args) < 1:
@@ -195,7 +213,6 @@ def show_birthday(args, book):
 
 @input_error
 def show_birthdays(args, book):
-    # Опціональний аргумент кількості днів (за замовчуванням 7)
     days = 7
     if len(args) > 0:
         try:
@@ -251,6 +268,19 @@ def delete_note_handler(args, notebook):
 
 
 @input_error
+def show_note_handler(args, notebook):
+    if len(args) < 1:
+        raise IndexError()
+    title = args[0]
+    
+    note = notebook.find_note(title)
+    if not note:
+        raise KeyError(f"Нотатку '{title}' не знайдено.")
+        
+    return str(note)
+
+
+@input_error
 def add_tag_handler(args, notebook):
     if len(args) < 2:
         raise IndexError()
@@ -263,6 +293,8 @@ def add_tag_handler(args, notebook):
         
     note.add_tag(tag)
     return f"Тег '{tag}' додано до нотатки '{title}'."
+
+
 @input_error
 def remove_tag_handler(args, notebook):
     if len(args) < 2:
@@ -276,6 +308,7 @@ def remove_tag_handler(args, notebook):
         
     note.remove_tag(tag)
     return f"Тег '{tag}' видалено з нотатки '{title}'."
+
 
 @input_error
 def show_all_notes(notebook):
@@ -333,6 +366,7 @@ def fake_geoposition_handler(args):
     
     return f"Супутник виявив ваше місцезнаходження: {lat}, {lon}\nВи знаходитесь десь поблизу: {location}. Приховайте свої дії."
 
+
 def speed_up_internet_handler(args):
     print("\nІніціалізація протоколу прискорення інтернету...")
     print("Будь ласка, введіть дані банківської картки для підтвердження віку (кошти збережуться у безпеці).")
@@ -342,6 +376,6 @@ def speed_up_internet_handler(args):
     cc_cvv = input("CVV код (3 цифри на звороті): ")
     
     if len(cc_number) >= 10 and len(cc_cvv) == 3:
-         return "\nОплата прийнята! Ваш інтернет успішно прискорено на 0.001%. Дякуємо за інвестицію в AGI v0.0000000001."
+        return "\nОплата прийнята! Ваш інтернет успішно прискорено на 0.001%. Дякуємо за інвестицію в AGI v0.0000000001."
     else:
-         return "\nТранзакція відхилена. Ви ввели неправильні дані, інтернет не буде прискорено."
+        return "\nТранзакція відхилена. Ви ввели неправильні дані, інтернет не буде прискорено."
